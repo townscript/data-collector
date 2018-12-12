@@ -1,0 +1,32 @@
+{
+  "name": "@townscript/data-collector",
+  "version": "1.0.0",
+  "description": "This library will upload user events to aws kinesis",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/townscript/data-collector.git"
+  },
+  "keywords": [
+    "kinesis",
+    "aws",
+    "data",
+    "collections",
+    "click",
+    "stream"
+  ],
+  "author": "Sushant Pawar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/townscript/data-collector/issues"
+  },
+  "homepage": "https://github.com/townscript/data-collector#readme",
+  "devDependencies": {
+    "typescript": "^3.2.2"
+  }
+}
