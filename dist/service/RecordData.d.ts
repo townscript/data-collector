@@ -1,4 +1,4 @@
-import { StreamData } from "./StreamData";
+import { StreamData } from "../model/StreamData";
 export declare class RecordData {
     private readonly _putRecord;
     private constructor();

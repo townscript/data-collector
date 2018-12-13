@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Kinesis = require("aws-sdk/clients/kinesis");
-var index_1 = require("./index");
+var DataCollector_1 = require("./DataCollector");
 var RecordData = /** @class */ (function () {
     function RecordData(data, uniqueIdentifier) {
         var _this = this;
@@ -15,7 +15,7 @@ var RecordData = /** @class */ (function () {
         this._putRecord = {
             Data: JSON.stringify(data),
             PartitionKey: uniqueIdentifier,
-            StreamName: index_1.DataCollector.getConfig().streamName
+            StreamName: DataCollector_1.DataCollector.getConfig().streamName
         };
     }
     RecordData.create = function (data, uniqueIdentifier) {

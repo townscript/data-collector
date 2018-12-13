@@ -1,6 +1,6 @@
-import {StreamData} from "./StreamData";
+import {StreamData} from "../model/StreamData";
 import * as Kinesis from "aws-sdk/clients/kinesis";
-import {DataCollector} from "./index";
+import {DataCollector} from "./DataCollector";
 
 export class RecordData {
     private readonly _putRecord: Kinesis.PutRecordInput;
