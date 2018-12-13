@@ -6,8 +6,8 @@ export declare class DataCollector {
     private constructor();
     static configure: (config: Configuration) => void;
     static disable: () => void;
-    static isEnable: () => boolean;
-    static getCofig: () => Configuration;
+    static isDisabled: () => boolean;
+    static getConfig: () => Configuration;
     static visitedPage: (url: string) => void;
     static clicked: (text: string) => void;
 }

@@ -20,14 +20,14 @@ var DataCollector = /** @class */ (function () {
     DataCollector.disable = function () {
         DataCollector._dataCollector._disabled = true;
     };
-    DataCollector.isEnable = function () {
+    DataCollector.isDisabled = function () {
         return DataCollector._dataCollector._disabled;
     };
-    DataCollector.getCofig = function () {
+    DataCollector.getConfig = function () {
         return DataCollector._dataCollector._config;
     };
     DataCollector.visitedPage = function (url) {
-        if (!DataCollector.isEnable())
+        if (DataCollector.isDisabled())
             return;
         var streamData = {
             eventType: EventType_1.EventType.PAGEVIEW,
@@ -37,7 +37,7 @@ var DataCollector = /** @class */ (function () {
         RecordData_1.RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
     };
     DataCollector.clicked = function (text) {
-        if (!DataCollector.isEnable())
+        if (DataCollector.isDisabled())
             return;
         var streamData = {
             eventType: EventType_1.EventType.CLICK,

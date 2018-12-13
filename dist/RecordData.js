@@ -15,7 +15,7 @@ var RecordData = /** @class */ (function () {
         this._putRecord = {
             Data: JSON.stringify(data),
             PartitionKey: uniqueIdentifier,
-            StreamName: index_1.DataCollector.getCofig().streamName
+            StreamName: index_1.DataCollector.getConfig().streamName
         };
     }
     RecordData.create = function (data, uniqueIdentifier) {

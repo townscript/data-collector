@@ -9,7 +9,7 @@ export class RecordData {
         this._putRecord = {
             Data: JSON.stringify(data),
             PartitionKey: uniqueIdentifier,
-            StreamName: DataCollector.getCofig().streamName
+            StreamName: DataCollector.getConfig().streamName
         };
     }
 

@@ -27,16 +27,16 @@ export class DataCollector {
         DataCollector._dataCollector._disabled = true;
     };
 
-    static isEnable = ():boolean => {
+    static isDisabled = ():boolean => {
         return DataCollector._dataCollector._disabled;
     };
 
-    static getCofig = ():Configuration => {
+    static getConfig = ():Configuration => {
         return DataCollector._dataCollector._config;
     };
 
     static visitedPage = (url: string):void => {
-        if (!DataCollector.isEnable())
+        if (DataCollector.isDisabled())
             return;
         let streamData:StreamData = {
            eventType: EventType.PAGEVIEW,
@@ -48,7 +48,7 @@ export class DataCollector {
     };
 
     static clicked = (text: string):void => {
-        if (!DataCollector.isEnable())
+        if (DataCollector.isDisabled())
             return;
         let streamData:StreamData = {
             eventType: EventType.CLICK,
