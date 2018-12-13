@@ -62,6 +62,3 @@ typings/
 
 # IDE
 .idea
-
-# Output dir
-dist/
