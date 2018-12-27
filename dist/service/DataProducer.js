@@ -39,10 +39,6 @@ var DataProducer = /** @class */ (function () {
                 region = ipInfoJson.region;
                 ipaddress = ipInfoJson.ip;
             }
-            console.log("calling visted with params " + absoluteUrl + " relativeUrl " + relativeUrl +
-                " loggedInUserId " + loggedInUserId + " personIdentifierId us " + personIdentifierId +
-                " sessionId " + sessionId + " city " + city + " country " + country +
-                " postal " + postal + " region " + region + " ipaddress " + ipaddress);
             DataCollector_1.DataCollector.visitedPage(absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postal, region, ipaddress, "");
         }
         catch (e) {
