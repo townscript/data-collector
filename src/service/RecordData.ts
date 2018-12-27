@@ -6,8 +6,11 @@ export class RecordData {
     private readonly _putRecord: Kinesis.PutRecordInput;
 
     private constructor(data:StreamData, uniqueIdentifier: string){
+        //Here adding new line in the end of the record so that AWS Athena process
+        //S3 records properly.
+        let kinesisData = JSON.stringify(data) + "\n";
         this._putRecord = {
-            Data: JSON.stringify(data),
+            Data: kinesisData,
             PartitionKey: uniqueIdentifier,
             StreamName: DataCollector.getConfig().streamName
         };

@@ -3,6 +3,8 @@ import {StreamData} from "../model/StreamData";
 import {EventType} from "../model/EventType";
 import {RecordData} from "./RecordData";
 import * as AWS from "aws-sdk/global";
+import {UUID} from "./UUID";
+declare var window: any;
 
 export class DataCollector {
     private _config: Configuration;
@@ -17,9 +19,6 @@ export class DataCollector {
     }
 
     static configure = (config: Configuration):void => {
-        if(DataCollector._dataCollector){
-            throw new Error("Data collector is already initialized");
-        }
         DataCollector._dataCollector = new DataCollector(config);
     };
 
@@ -35,27 +34,94 @@ export class DataCollector {
         return DataCollector._dataCollector._config;
     };
 
-    static visitedPage = (url: string):void => {
+    static visitedPage = (absoluteUrl:string, relativeUrl:string,
+                          loggedInUserId:string, personIdentifierId:string,
+                          sessionId:string, city:string, country:string, postalCode:string,
+                          region:string, ipaddress:string, customText1:string):void => {
         if (DataCollector.isDisabled())
             return;
-        let streamData:StreamData = {
-            eventType: EventType.PAGEVIEW,
-            url: url,
-            text: ''
-        };
-
+        let streamData = DataCollector.getStreamData(EventType.PAGEVIEW,absoluteUrl, relativeUrl,
+                                        loggedInUserId, personIdentifierId, sessionId, city,
+                                        country, postalCode, region, ipaddress, customText1);
         RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
     };
 
-    static clicked = (text: string):void => {
+    static clicked = (absoluteUrl:string, relativeUrl:string,
+                      loggedInUserId:string, personIdentifierId:string,
+                      sessionId:string, city:string, country:string, postalCode:string,
+                      region:string, ipaddress:string, customText1:string):void => {
         if (DataCollector.isDisabled())
             return;
-        let streamData:StreamData = {
-            eventType: EventType.CLICK,
-            url: '',
-            text: text
-        };
 
+        let streamData = DataCollector.getStreamData(EventType.CLICK,absoluteUrl, relativeUrl,
+            loggedInUserId, personIdentifierId, sessionId, city,
+            country, postalCode, region, ipaddress, customText1);
         RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
+    };
+
+    static getStreamData = (eventType: string, absoluteUrl:string, relativeUrl:string,
+                            loggedInUserId:string, personIdentifierId:string,
+                            sessionId:string, city:string, country:string, postalCode:string,
+                            region:string, ipaddress:string, customText1:string):StreamData =>{
+        let currentDate: Date = new Date();
+        let detailClientTimeStamp:string = currentDate.toString();
+        let longClientTimeStamp: number = currentDate.getTime();
+        let userAgentBrowser: string = DataCollector.getWebBrowserInfo();
+        let recordId: string = UUID.generateUUID32();
+
+        let streamData:StreamData = {
+            eventType: eventType,
+            userAgentBrowser: userAgentBrowser,
+            absoluteUrl: absoluteUrl,
+            relativeUrl: relativeUrl,
+            longClientTimeStamp: longClientTimeStamp,
+            detailClientTimeStamp: detailClientTimeStamp,
+            personIdentifierId: personIdentifierId,
+            recordId: recordId,
+            sessionId: sessionId
+        };
+        if(loggedInUserId){
+            streamData.loggedInUserId = loggedInUserId;
+        }
+        if(city){
+            streamData.city = city;
+        }
+        if(country){
+            streamData.country = country;
+        }
+        if(postalCode){
+            streamData.postalCode = postalCode;
+        }
+        if(region){
+            streamData.region = region;
+        }
+        if(customText1){
+            streamData.customText1 = customText1;
+        }
+        if(ipaddress){
+            streamData.ipaddress = ipaddress;
+        }
+        return streamData;
+    };
+
+    static getWebBrowserInfo = ():string => {
+      try{
+          var ua= window.navigator.userAgent, tem,
+              M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+          if(/trident/i.test(M[1])){
+              tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+              return 'IE '+(tem[1] || '');
+          }
+          if(M[1]=== 'Chrome'){
+              tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+              if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+          }
+          M= M[2]? [M[1], M[2]]: [window.navigator.appName, window.navigator.appVersion, '-?'];
+          if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+          return M.join(' ');
+      }
+      catch (e) {
+          return "Browser Detection Error";
+      }
     };
 }

@@ -4,3 +4,6 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./service/DataCollector"));
+__export(require("./service/DataProducer"));
+__export(require("./service/UUID"));
+__export(require("./service/BrowserStorage"));

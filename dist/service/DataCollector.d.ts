@@ -1,4 +1,5 @@
 import { Configuration } from "../model/Configuration";
+import { StreamData } from "../model/StreamData";
 export declare class DataCollector {
     private _config;
     private static _dataCollector;
@@ -8,6 +9,8 @@ export declare class DataCollector {
     static disable: () => void;
     static isDisabled: () => boolean;
     static getConfig: () => Configuration;
-    static visitedPage: (url: string) => void;
-    static clicked: (text: string) => void;
+    static visitedPage: (absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, customText1: string) => void;
+    static clicked: (absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, customText1: string) => void;
+    static getStreamData: (eventType: string, absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, customText1: string) => StreamData;
+    static getWebBrowserInfo: () => string;
 }

@@ -12,8 +12,11 @@ var RecordData = /** @class */ (function () {
                 console.info(data.ShardId);
             });
         };
+        //Here adding new line in the end of the record so that AWS Athena process
+        //S3 records properly.
+        var kinesisData = JSON.stringify(data) + "\n";
         this._putRecord = {
-            Data: JSON.stringify(data),
+            Data: kinesisData,
             PartitionKey: uniqueIdentifier,
             StreamName: DataCollector_1.DataCollector.getConfig().streamName
         };
