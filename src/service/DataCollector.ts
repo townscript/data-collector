@@ -38,31 +38,42 @@ export class DataCollector {
                           loggedInUserId:string, personIdentifierId:string,
                           sessionId:string, city:string, country:string, postalCode:string,
                           region:string, ipaddress:string, customText1:string):void => {
-        if (DataCollector.isDisabled())
-            return;
-        let streamData = DataCollector.getStreamData(EventType.PAGEVIEW,absoluteUrl, relativeUrl,
-                                        loggedInUserId, personIdentifierId, sessionId, city,
-                                        country, postalCode, region, ipaddress, customText1);
-        RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
+
+        DataCollector.callRecordData(EventType.PAGEVIEW,absoluteUrl, relativeUrl,
+            loggedInUserId, personIdentifierId, sessionId, city,
+            country, postalCode, region, ipaddress, "", "", customText1);
     };
 
     static clicked = (absoluteUrl:string, relativeUrl:string,
                       loggedInUserId:string, personIdentifierId:string,
                       sessionId:string, city:string, country:string, postalCode:string,
-                      region:string, ipaddress:string, customText1:string):void => {
+                      region:string, ipaddress:string, eventLabel: string,
+                      clickedLocation: string, customText1:string):void => {
+
+        DataCollector.callRecordData(EventType.CLICK,absoluteUrl, relativeUrl,
+            loggedInUserId, personIdentifierId, sessionId, city,
+            country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
+    };
+
+    static callRecordData = (eventType: string, absoluteUrl:string, relativeUrl:string,
+                             loggedInUserId:string, personIdentifierId:string,
+                             sessionId:string, city:string, country:string, postalCode:string,
+                             region:string, ipaddress:string, eventLabel: string,
+                             clickedLocation: string, customText1:string):void => {
         if (DataCollector.isDisabled())
             return;
 
-        let streamData = DataCollector.getStreamData(EventType.CLICK,absoluteUrl, relativeUrl,
+        let streamData = DataCollector.getStreamData(eventType,absoluteUrl, relativeUrl,
             loggedInUserId, personIdentifierId, sessionId, city,
-            country, postalCode, region, ipaddress, customText1);
+            country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
         RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
-    };
+    }
 
     static getStreamData = (eventType: string, absoluteUrl:string, relativeUrl:string,
                             loggedInUserId:string, personIdentifierId:string,
                             sessionId:string, city:string, country:string, postalCode:string,
-                            region:string, ipaddress:string, customText1:string):StreamData =>{
+                            region:string, ipaddress:string, eventLabel: string,
+                            clickedLocation: string, customText1:string):StreamData =>{
         let currentDate: Date = new Date();
         let detailClientTimeStamp:string = currentDate.toString();
         let longClientTimeStamp: number = currentDate.getTime();
@@ -100,6 +111,12 @@ export class DataCollector {
         }
         if(ipaddress){
             streamData.ipaddress = ipaddress;
+        }
+        if(eventLabel){
+            streamData.eventLabel = eventLabel;
+        }
+        if(clickedLocation){
+            streamData.clickedLocation = clickedLocation;
         }
         return streamData;
     };

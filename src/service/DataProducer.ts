@@ -2,6 +2,7 @@ import {DataCollector} from "./DataCollector";
 import {Configuration} from "../model/Configuration";
 import {UUID} from "./UUID";
 import {BrowserStorage} from "./BrowserStorage";
+import {EventType} from "../model/EventType";
 
 declare var window: any;
 
@@ -23,6 +24,14 @@ export class DataProducer {
     };
 
     static callPageView = (loggedInUserId: string) =>{
+        DataProducer.callDataCollector(EventType.PAGEVIEW, "", "", loggedInUserId);
+    };
+
+    static callClickEvent = (eventLabel: string, clickedLocation: string, loggedInUserId: string) =>{
+        DataProducer.callDataCollector(EventType.CLICK, eventLabel, clickedLocation, loggedInUserId);
+    };
+
+    static callDataCollector = (eventType:string, eventLabel: string, clickedLocation: string, loggedInUserId: string)=>{
         try{
             let relativeUrl = window.location.pathname;
             let absoluteUrl = window.location.href;
@@ -50,12 +59,11 @@ export class DataProducer {
                 region = ipInfoJson.region;
                 ipaddress = ipInfoJson.ip;
             }
-            DataCollector.visitedPage(absoluteUrl, relativeUrl,loggedInUserId, personIdentifierId,
-                            sessionId, city, country, postal,region, ipaddress, "");
+            DataCollector.callRecordData(eventType, absoluteUrl, relativeUrl,loggedInUserId, personIdentifierId,
+                sessionId, city, country, postal,region, ipaddress, eventLabel, clickedLocation,  "");
         }
         catch(e){
             console.log("exception while sending the data " + e);
         }
     };
-
 }

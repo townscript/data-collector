@@ -17,5 +17,7 @@ export interface StreamData {
     city ?:string,
     country ?:string,
     postalCode ?:string,
-    region ?:string
+    region ?:string,
+    eventLabel ?: string,
+    clickedLocation ?: string
 }

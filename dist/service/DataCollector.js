@@ -25,18 +25,18 @@ var DataCollector = /** @class */ (function () {
         return DataCollector._dataCollector._config;
     };
     DataCollector.visitedPage = function (absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, customText1) {
+        DataCollector.callRecordData(EventType_1.EventType.PAGEVIEW, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, "", "", customText1);
+    };
+    DataCollector.clicked = function (absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1) {
+        DataCollector.callRecordData(EventType_1.EventType.CLICK, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
+    };
+    DataCollector.callRecordData = function (eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1) {
         if (DataCollector.isDisabled())
             return;
-        var streamData = DataCollector.getStreamData(EventType_1.EventType.PAGEVIEW, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, customText1);
+        var streamData = DataCollector.getStreamData(eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
         RecordData_1.RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
     };
-    DataCollector.clicked = function (absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, customText1) {
-        if (DataCollector.isDisabled())
-            return;
-        var streamData = DataCollector.getStreamData(EventType_1.EventType.CLICK, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, customText1);
-        RecordData_1.RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
-    };
-    DataCollector.getStreamData = function (eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, customText1) {
+    DataCollector.getStreamData = function (eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1) {
         var currentDate = new Date();
         var detailClientTimeStamp = currentDate.toString();
         var longClientTimeStamp = currentDate.getTime();
@@ -73,6 +73,12 @@ var DataCollector = /** @class */ (function () {
         }
         if (ipaddress) {
             streamData.ipaddress = ipaddress;
+        }
+        if (eventLabel) {
+            streamData.eventLabel = eventLabel;
+        }
+        if (clickedLocation) {
+            streamData.clickedLocation = clickedLocation;
         }
         return streamData;
     };

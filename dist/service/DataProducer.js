@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var DataCollector_1 = require("./DataCollector");
 var UUID_1 = require("./UUID");
 var BrowserStorage_1 = require("./BrowserStorage");
+var EventType_1 = require("../model/EventType");
 var DataProducer = /** @class */ (function () {
     function DataProducer(config) {
         this._config = config;
@@ -16,6 +17,12 @@ var DataProducer = /** @class */ (function () {
         }
     };
     DataProducer.callPageView = function (loggedInUserId) {
+        DataProducer.callDataCollector(EventType_1.EventType.PAGEVIEW, "", "", loggedInUserId);
+    };
+    DataProducer.callClickEvent = function (eventLabel, clickedLocation, loggedInUserId) {
+        DataProducer.callDataCollector(EventType_1.EventType.CLICK, eventLabel, clickedLocation, loggedInUserId);
+    };
+    DataProducer.callDataCollector = function (eventType, eventLabel, clickedLocation, loggedInUserId) {
         try {
             var relativeUrl = window.location.pathname;
             var absoluteUrl = window.location.href;
@@ -39,7 +46,7 @@ var DataProducer = /** @class */ (function () {
                 region = ipInfoJson.region;
                 ipaddress = ipInfoJson.ip;
             }
-            DataCollector_1.DataCollector.visitedPage(absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postal, region, ipaddress, "");
+            DataCollector_1.DataCollector.callRecordData(eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postal, region, ipaddress, eventLabel, clickedLocation, "");
         }
         catch (e) {
             console.log("exception while sending the data " + e);
