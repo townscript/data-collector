@@ -2,15 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventType_1 = require("../model/EventType");
 var RecordData_1 = require("./RecordData");
-var AWS = require("aws-sdk/global");
 var UUID_1 = require("./UUID");
 var DataCollector = /** @class */ (function () {
     function DataCollector(config) {
         this._disabled = false;
         this._config = config;
-        AWS.config.accessKeyId = config.accessKeyId;
-        AWS.config.secretAccessKey = config.secretAccessKey;
-        AWS.config.region = config.region;
     }
     DataCollector.configure = function (config) {
         DataCollector._dataCollector = new DataCollector(config);
@@ -34,7 +30,7 @@ var DataCollector = /** @class */ (function () {
         if (DataCollector.isDisabled())
             return;
         var streamData = DataCollector.getStreamData(eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
-        RecordData_1.RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
+        RecordData_1.RecordData.create(streamData, DataCollector._dataCollector._config).send();
     };
     DataCollector.getStreamData = function (eventType, absoluteUrl, relativeUrl, loggedInUserId, personIdentifierId, sessionId, city, country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1) {
         var currentDate = new Date();

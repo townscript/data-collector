@@ -2,7 +2,6 @@ import {Configuration} from "../model/Configuration";
 import {StreamData} from "../model/StreamData";
 import {EventType} from "../model/EventType";
 import {RecordData} from "./RecordData";
-import * as AWS from "aws-sdk/global";
 import {UUID} from "./UUID";
 declare var window: any;
 
@@ -13,9 +12,6 @@ export class DataCollector {
 
     private constructor(config: Configuration) {
         this._config = config;
-        AWS.config.accessKeyId = config.accessKeyId;
-        AWS.config.secretAccessKey = config.secretAccessKey;
-        AWS.config.region = config.region;
     }
 
     static configure = (config: Configuration):void => {
@@ -66,7 +62,7 @@ export class DataCollector {
         let streamData = DataCollector.getStreamData(eventType,absoluteUrl, relativeUrl,
             loggedInUserId, personIdentifierId, sessionId, city,
             country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
-        RecordData.create(streamData, DataCollector._dataCollector._config.uniqueIdentifier).send();
+        RecordData.create(streamData, DataCollector._dataCollector._config).send();
     }
 
     static getStreamData = (eventType: string, absoluteUrl:string, relativeUrl:string,
