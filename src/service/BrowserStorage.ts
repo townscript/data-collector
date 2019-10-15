@@ -1,5 +1,6 @@
 declare var localStorage: any;
 declare var document: any;
+declare var sessionStorage:any;
 
 export class BrowserStorage {
 
@@ -11,7 +12,7 @@ export class BrowserStorage {
         localStorage.setItem(fieldName, fieldValue);
     };
 
-    static getCookie = (c_name:string) => {
+    static getCookie = (c_name: string) => {
         if (document.cookie.length > 0) {
             var c_start = document.cookie.indexOf(c_name + "=");
             if (c_start != -1) {
@@ -26,15 +27,20 @@ export class BrowserStorage {
         return "";
     };
 
-    static setCookie = (name: string,value: string,days: number) => {
+    static setCookie = (name: string, value: string, days: number) => {
         var date: Date, expires: string;
         if (days) {
             date = new Date();
-            date.setTime(date.getTime()+(days*24*60*60*1000));
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
             expires = "; expires=" + date.toUTCString();
-        }else{
+        } else {
             expires = "";
         }
         document.cookie = name + "=" + value + expires;
+    };
+
+    //sessionStorage implementation for tab specific session ids
+    static setSessionId = (name: string, value: string) => {
+        sessionStorage.setItem(name, value);
     };
 }
