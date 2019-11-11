@@ -17,4 +17,6 @@ export interface StreamData {
     region?: string;
     eventLabel?: string;
     clickedLocation?: string;
+    clienttimestamp: Date;
+    userDevice: string;
 }

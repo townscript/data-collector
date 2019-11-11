@@ -45,7 +45,7 @@ export class DataProducer {
             let sessionId = BrowserStorage.getCookie(DataProducer.SESSION_ID);
             if(!sessionId){
                 sessionId = UUID.generateUUID16();
-                BrowserStorage.setSessionId(DataProducer.SESSION_ID, sessionId);
+                BrowserStorage.setCookie(DataProducer.SESSION_ID, sessionId, 0);
             }
 
             let ipInfoData = BrowserStorage.getFieldFromLocalStorage("ipinfo_data");

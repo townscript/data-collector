@@ -13,5 +13,6 @@ export declare class DataCollector {
     static clicked: (absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, eventLabel: string, clickedLocation: string, customText1: string) => void;
     static callRecordData: (eventType: string, absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, eventLabel: string, clickedLocation: string, customText1: string) => void;
     static getStreamData: (eventType: string, absoluteUrl: string, relativeUrl: string, loggedInUserId: string, personIdentifierId: string, sessionId: string, city: string, country: string, postalCode: string, region: string, ipaddress: string, eventLabel: string, clickedLocation: string, customText1: string) => StreamData;
+    static isDevicePhone: () => boolean;
     static getWebBrowserInfo: () => string;
 }

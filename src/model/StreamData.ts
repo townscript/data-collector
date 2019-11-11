@@ -5,7 +5,6 @@ export interface StreamData {
     userAgentBrowser: string,
     absoluteUrl: string,
     relativeUrl: string,
-
     loggedInUserId?: string,
     personIdentifierId: string,
     sessionId: string,
@@ -19,5 +18,7 @@ export interface StreamData {
     postalCode ?:string,
     region ?:string,
     eventLabel ?: string,
-    clickedLocation ?: string
+    clickedLocation ?: string,
+    clienttimestamp: Date,
+    userDevice:string
 }

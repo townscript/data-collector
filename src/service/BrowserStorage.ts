@@ -38,9 +38,4 @@ export class BrowserStorage {
         }
         document.cookie = name + "=" + value + expires;
     };
-
-    //sessionStorage implementation for tab specific session ids
-    static setSessionId = (name: string, value: string) => {
-        sessionStorage.setItem(name, value);
-    };
 }
