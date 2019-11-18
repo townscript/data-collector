@@ -1,6 +1,5 @@
 declare var localStorage: any;
 declare var document: any;
-declare var sessionStorage:any;
 
 export class BrowserStorage {
 
