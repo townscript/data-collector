@@ -1,7 +1,7 @@
-import {SearchStreamData} from "../model/search-stream.model";
+import {SearchStreamData} from "../../model/search-stream.model";
 import * as Kinesis from "aws-sdk/clients/kinesis";
-import {SearchDataCollector} from "./search-data-collector.service";
-import {Configuration} from "../model/Configuration";
+import {SearchDataCollector} from "../collector/search-data-collector.service";
+import {Configuration} from "../../model/Configuration";
 
 export class RecordSearchData {
     private readonly _putRecord: Kinesis.PutRecordInput;

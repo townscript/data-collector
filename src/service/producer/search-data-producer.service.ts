@@ -1,10 +1,10 @@
-import {SearchDataCollector} from "./search-data-collector.service";
-import {Configuration} from "../model/Configuration";
-import {UUID} from "./UUID";
-import {BrowserStorage} from "./BrowserStorage";
-import { EventData } from "../model/search-stream-helper-model/event-data.model";
-import { OrganizerData } from "../model/search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionData } from "../model/search-stream-helper-model/search-suggestion-data.mode";
+import {SearchDataCollector} from "../collector/search-data-collector.service";
+import {Configuration} from "../../model/Configuration";
+import {UUID} from "../shared/UUID";
+import {BrowserStorage} from "../shared/BrowserStorage";
+import { EventData } from "../../model/search-stream-helper-model/event-data.model";
+import { OrganizerData } from "../../model/search-stream-helper-model/organizer-data.model";
+import { SearchSuggestionData } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
 
 declare var window: any;
 

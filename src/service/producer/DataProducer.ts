@@ -1,8 +1,8 @@
-import {DataCollector} from "./DataCollector";
-import {Configuration} from "../model/Configuration";
-import {UUID} from "./UUID";
-import {BrowserStorage} from "./BrowserStorage";
-import {EventType} from "../model/EventType";
+import {DataCollector} from "../collector/DataCollector";
+import {Configuration} from "../../model/Configuration";
+import {UUID} from "../shared/UUID";
+import {BrowserStorage} from "../shared/BrowserStorage";
+import {EventType} from "../../model/EventType";
 
 declare var window: any;
 
