@@ -35,19 +35,8 @@ export class DataProducer {
         try{
             let relativeUrl = window.location.pathname;
             let absoluteUrl = window.location.href;
-
-            let personIdentifierId = BrowserStorage.getFieldFromLocalStorage(DataProducer.PERSON_IDENTIFIER_ID);
-            if(!personIdentifierId){
-                personIdentifierId = UUID.generateUUID32();
-                BrowserStorage.setFieldToLocalStorage(DataProducer.PERSON_IDENTIFIER_ID, personIdentifierId);
-            }
-
-            let sessionId = BrowserStorage.getCookie(DataProducer.SESSION_ID);
-            if(!sessionId){
-                sessionId = UUID.generateUUID16();
-                BrowserStorage.setCookie(DataProducer.SESSION_ID, sessionId, 0);
-            }
-
+            let personIdentifierId = BrowserStorage.updateFieldToLocalStorage(DataProducer.PERSON_IDENTIFIER_ID);
+            let sessionId = BrowserStorage.updateCookieToLocalStorage(DataProducer.SESSION_ID);
             let ipInfoData = BrowserStorage.getFieldFromLocalStorage("ipinfo_data");
             let city: string = "", country: string = "", postal: string = "",
                 region: string = "", ipaddress: string = "";

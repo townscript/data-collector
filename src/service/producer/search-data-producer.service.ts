@@ -30,19 +30,8 @@ export class SearchDataProducer {
         try{
             let relativeUrl = window.location.pathname;
             let absoluteUrl = window.location.href;
-
-            let personIdentifierId = BrowserStorage.getFieldFromLocalStorage(SearchDataProducer.PERSON_IDENTIFIER_ID);
-            if(!personIdentifierId){
-                personIdentifierId = UUID.generateUUID32();
-                BrowserStorage.setFieldToLocalStorage(SearchDataProducer.PERSON_IDENTIFIER_ID, personIdentifierId);
-            }   
-
-            let sessionId = BrowserStorage.getCookie(SearchDataProducer.SESSION_ID);
-            if(!sessionId){
-                sessionId = UUID.generateUUID16();
-                BrowserStorage.setCookie(SearchDataProducer.SESSION_ID, sessionId, 0);
-            }
-
+            let personIdentifierId = BrowserStorage.updateFieldToLocalStorage(SearchDataProducer.PERSON_IDENTIFIER_ID);
+            let sessionId = BrowserStorage.updateCookieToLocalStorage(SearchDataProducer.SESSION_ID);
             let ipInfoData = BrowserStorage.getFieldFromLocalStorage("ipinfo_data");
             let city: string = "", country: string = "", postal: string = "",
                 region: string = "", ipaddress: string = "";
