@@ -1,6 +1,6 @@
 import { EventDataModel } from "./search-stream-helper-model/event-data.model";
 import { OrganizerDataModel } from "./search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionDataModel } from "./search-stream-helper-model/search-suggestion-data.mode";
+import { SearchSuggestionDataModel } from "./search-stream-helper-model/search-suggestion-data.model";
 import { BasicStreamDataModel } from "./basic-stream-data.model";
 
 export interface SearchStreamDataModel extends BasicStreamDataModel {

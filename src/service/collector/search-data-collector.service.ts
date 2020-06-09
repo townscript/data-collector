@@ -3,7 +3,7 @@ import {RecordSearchData} from "../publisher/record-search-data.service";
 import {UUID} from "../shared/UUID";
 import { EventDataModel } from "../../model/search-stream-helper-model/event-data.model";
 import { OrganizerDataModel } from "../../model/search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
+import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.model";
 import { UserMetaDataService } from "../shared/user-metadata.service";
 import { BasicDataCollectorService } from "./basic-data-collector.service";
 
