@@ -4,7 +4,7 @@ import {UUID} from "../shared/UUID";
 import {BrowserStorage} from "../shared/BrowserStorage";
 import { EventDataModel } from "../../model/search-stream-helper-model/event-data.model";
 import { OrganizerDataModel } from "../../model/search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
+import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.model";
 
 declare var window: any;
 
