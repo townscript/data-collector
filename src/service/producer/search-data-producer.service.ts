@@ -2,9 +2,9 @@ import {SearchDataCollector} from "../collector/search-data-collector.service";
 import {Configuration} from "../../model/Configuration";
 import {UUID} from "../shared/UUID";
 import {BrowserStorage} from "../shared/BrowserStorage";
-import { EventData } from "../../model/search-stream-helper-model/event-data.model";
-import { OrganizerData } from "../../model/search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionData } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
+import { EventDataModel } from "../../model/search-stream-helper-model/event-data.model";
+import { OrganizerDataModel } from "../../model/search-stream-helper-model/organizer-data.model";
+import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
 
 declare var window: any;
 
@@ -43,9 +43,9 @@ export class SearchDataProducer {
                 region = ipInfoJson.region;
                 ipaddress = ipInfoJson.ip;
             }
-            let eventsList = new Array<EventData>();
-            let organizersList = new Array<OrganizerData>();
-            let suggestionsList = new Array<SearchSuggestionData>();
+            let eventsList = new Array<EventDataModel>();
+            let organizersList = new Array<OrganizerDataModel>();
+            let suggestionsList = new Array<SearchSuggestionDataModel>();
             if(eventsListed != null){
                 eventsList = SearchDataProducer.getEventDataFormList(eventsListed);
             }
@@ -64,10 +64,13 @@ export class SearchDataProducer {
         }
     };
 
-    static getOrganizerDataFormList = (organizersList : []):Array<OrganizerData> => {
-        let organizersFormedList = new Array<OrganizerData>();
+    static getOrganizerDataFormList = (organizersList : []):Array<OrganizerDataModel> => {
+        let organizersFormedList = new Array<OrganizerDataModel>();
         for (const organizer in organizersList) {
-            let organizerData: OrganizerData = new OrganizerData();
+            let organizerData: OrganizerDataModel = {
+                organizer_id : organizersList[organizer]['organizerId'],
+                organizer_name : organizersList[organizer]['organizerName']
+            }
             organizerData.organizer_id = organizersList[organizer]['organizerId'];
             organizerData.organizer_name = organizersList[organizer]['organizerName'];
             organizersFormedList.push(organizerData);
@@ -75,24 +78,26 @@ export class SearchDataProducer {
         return organizersFormedList;
     }
 
-    static getSuggestionsDataFormList = (suggestionsList: []):Array<SearchSuggestionData> => {
-        let suggestionsFormedList = new Array<SearchSuggestionData>();
+    static getSuggestionsDataFormList = (suggestionsList: []):Array<SearchSuggestionDataModel> => {
+        let suggestionsFormedList = new Array<SearchSuggestionDataModel>();
         for(const index in suggestionsList) {
-            let suggestionData = new SearchSuggestionData();
-            suggestionData.score = suggestionsList[index]['score'];
-            suggestionData.suggestion = suggestionsList[index]['suggestion'];
+            let suggestionData: SearchSuggestionDataModel = {
+                score : suggestionsList[index]['score'],
+                suggestion : suggestionsList[index]['suggestion']    
+            }
             suggestionsFormedList.push(suggestionData);
         }
         return suggestionsFormedList;
     }
 
-    static getEventDataFormList = (eventList: []):Array<EventData> => {
-        let eventFormedList = new Array<EventData>();
+    static getEventDataFormList = (eventList: []):Array<EventDataModel> => {
+        let eventFormedList = new Array<EventDataModel>();
         for (const index in eventList) {
-            let eventData: EventData = new EventData();
-            eventData.event_id = eventList[index]['eventId'];
-            eventData.event_name = eventList[index]['name'];
-            eventData.event_search_score = eventList[index]['eventSearchScore'];
+            let eventData: EventDataModel = {
+                event_id: eventList[index]['eventId'],
+                event_name: eventList[index]['name'],
+                event_search_score: eventList[index]['eventSearchScore']        
+            }
             eventFormedList.push(eventData);
         }
         return eventFormedList;

@@ -1,4 +1,4 @@
-import {SearchStreamData} from "../../model/search-stream.model";
+import {SearchStreamDataModel} from "../../model/search-stream.model";
 import * as Kinesis from "aws-sdk/clients/kinesis";
 import {SearchDataCollector} from "../collector/search-data-collector.service";
 import {Configuration} from "../../model/Configuration";
@@ -7,7 +7,7 @@ export class RecordSearchData {
     private readonly _putRecord: Kinesis.PutRecordInput;
     private _config: Configuration;
 
-    private constructor(data:SearchStreamData,  config: Configuration){
+    private constructor(data:SearchStreamDataModel,  config: Configuration){
         //Here adding new line in the end of the record so that AWS Athena process
         //S3 records properly.
         let kinesisData = JSON.stringify(data,  RecordSearchData.analyze) + "\n";
@@ -21,7 +21,7 @@ export class RecordSearchData {
     static analyze = (key: any, value: any) => {
         return value;
     };
-    static create = (data:SearchStreamData, config: Configuration):RecordSearchData => {
+    static create = (data:SearchStreamDataModel, config: Configuration):RecordSearchData => {
         return new RecordSearchData(data, config);
     };
 

@@ -5,3 +5,4 @@ export * from "./service/shared/UUID";
 export * from "./service/shared/BrowserStorage";
 export * from "./service/collector/search-data-collector.service";
 export * from "./service/producer/search-data-producer.service";
+export * from "./service/shared/user-metadata.service";

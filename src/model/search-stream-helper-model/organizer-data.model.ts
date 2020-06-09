@@ -1,4 +1,4 @@
-export class OrganizerData {
-    organizer_id: number | undefined;
-    organizer_name: String | undefined;
+export interface OrganizerDataModel {
+    organizer_id: number;
+    organizer_name: string;
 }

@@ -1,10 +1,10 @@
 import {Configuration} from "../../model/Configuration";
-import {SearchStreamData} from "../../model/search-stream.model";
+import {SearchStreamDataModel} from "../../model/search-stream.model";
 import {RecordSearchData} from "../publisher/record-search-data.service";
 import {UUID} from "../shared/UUID";
-import { EventData } from "../../model/search-stream-helper-model/event-data.model";
-import { OrganizerData } from "../../model/search-stream-helper-model/organizer-data.model";
-import { SearchSuggestionData } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
+import { EventDataModel } from "../../model/search-stream-helper-model/event-data.model";
+import { OrganizerDataModel } from "../../model/search-stream-helper-model/organizer-data.model";
+import { SearchSuggestionDataModel } from "../../model/search-stream-helper-model/search-suggestion-data.mode";
 import { UserMetaDataService } from "../shared/user-metadata.service";
 declare var window: any;
 
@@ -37,7 +37,7 @@ export class SearchDataCollector {
         loggedInUserId:string, personIdentifierId:string,
         sessionId:string, city:string, country:string, postalCode:string,
         region:string, ipaddress:string, typedText:string, 
-        searchIntent:string, eventCount: number, eventsList: Array<EventData>, organizersListed: Array<OrganizerData>, suggestionsList: Array<SearchSuggestionData>, pageNumber: number):void => {
+        searchIntent:string, eventCount: number, eventsList: Array<EventDataModel>, organizersListed: Array<OrganizerDataModel>, suggestionsList: Array<SearchSuggestionDataModel>, pageNumber: number):void => {
 
             let searchStreamData = SearchDataCollector.getSearchStreamData( absoluteUrl, relativeUrl,
                 loggedInUserId, personIdentifierId, sessionId, city,
@@ -66,26 +66,26 @@ export class SearchDataCollector {
         let userAgentBrowser: string = UserMetaDataService.getWebBrowserInfo();
         let recordId: string = UUID.generateUUID32();
         let userDevice: string = UserMetaDataService.isDevicePhone() ? "Phone" : "Desktop";
-        let searchStreamData:SearchStreamData = {
-            useragentbrowser: userAgentBrowser,
-            absoluteurl: absoluteUrl,
-            relativeurl: relativeUrl,
-            longclienttimestamp: longClientTimeStamp,
-            personidentifierid: personIdentifierId,
-            recordid: recordId,
-            sessionid: sessionId,
-            clienttimestamp:currentDate,
-            userdevice: userDevice,
-            typedtext: typedText,
-            searchintent: searchIntent,
-            eventcount: eventCount,
-            eventslist: eventsList,
-            organizerslist: organizersListed,
-            searchsuggestions: suggestionsList,
-            pagenumber: pageNumber
+        let searchStreamData:SearchStreamDataModel = {
+            userAgentBrowser: userAgentBrowser,
+            absoluteUrl: absoluteUrl,
+            relativeUrl: relativeUrl,
+            longClientTimeStamp: longClientTimeStamp,
+            personIdentifierId: personIdentifierId,
+            recordId: recordId,
+            sessionId: sessionId,
+            clientTimeStamp:currentDate,
+            userDevice: userDevice,
+            typedText: typedText,
+            searchIntent: searchIntent,
+            eventCount: eventCount,
+            eventsList: eventsList,
+            organizersList: organizersListed,
+            searchSuggestions: suggestionsList,
+            pageNumber: pageNumber
         };
         if(loggedInUserId){
-            searchStreamData.loggedinuserid = loggedInUserId;
+            searchStreamData.loggedInUserId = loggedInUserId;
         }
         if(city){
             searchStreamData.city = city;
@@ -94,13 +94,13 @@ export class SearchDataCollector {
             searchStreamData.country = country;
         }
         if(postalCode){
-            searchStreamData.postalcode = postalCode;
+            searchStreamData.postalCode = postalCode;
         }
         if(region){
             searchStreamData.region = region;
         }
         if(ipaddress){
-            searchStreamData.ipaddress = ipaddress;
+            searchStreamData.ipAddress = ipaddress;
         }
         return searchStreamData;
     };

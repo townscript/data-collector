@@ -87,7 +87,7 @@ export class DataCollector {
             personIdentifierId: personIdentifierId,
             recordId: recordId,
             sessionId: sessionId,
-            clienttimestamp:currentDate,
+            clientTimeStamp:currentDate,
             userDevice: userDevice
         };
         if(loggedInUserId){
@@ -109,7 +109,7 @@ export class DataCollector {
             streamData.customText1 = customText1;
         }
         if(ipaddress){
-            streamData.ipaddress = ipaddress;
+            streamData.ipAddress = ipaddress;
         }
         if(eventLabel){
             streamData.eventLabel = eventLabel;
