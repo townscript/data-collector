@@ -1,6 +1,6 @@
 import {SearchStreamDataModel} from "../../model/search-stream.model";
 import * as Kinesis from "aws-sdk/clients/kinesis";
-import {SearchDataCollector} from "../collector/search-data-collector.service";
+import {SearchDataCollectorService} from "../collector/search-data-collector.service";
 import {Configuration} from "../../model/Configuration";
 
 export class RecordSearchData {
@@ -14,7 +14,7 @@ export class RecordSearchData {
         this._putRecord = {
             Data: kinesisData,
             PartitionKey: config.uniqueIdentifier,
-            StreamName: SearchDataCollector.getConfig().streamName
+            StreamName: SearchDataCollectorService.getConfig().streamName
         };
         this._config = config;
     }

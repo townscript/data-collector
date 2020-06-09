@@ -1,35 +1,11 @@
-import {Configuration} from "../../model/Configuration";
 import {StreamData} from "../../model/StreamData";
 import {EventType} from "../../model/EventType";
 import {RecordData} from "../publisher/RecordData";
 import {UUID} from "../shared/UUID";
 import { UserMetaDataService } from "../shared/user-metadata.service";
-declare var window: any;
+import { BasicDataCollectorService } from "./basic-data-collector.service";
 
-export class DataCollector {
-    private _config: Configuration;
-    private static _dataCollector: DataCollector;
-    private _disabled: boolean = false;
-
-    private constructor(config: Configuration) {
-        this._config = config;
-    }
-
-    static configure = (config: Configuration):void => {
-        DataCollector._dataCollector = new DataCollector(config);
-    };
-
-    static disable = ():void => {
-        DataCollector._dataCollector._disabled = true;
-    };
-
-    static isDisabled = ():boolean => {
-        return DataCollector._dataCollector._disabled;
-    };
-
-    static getConfig = ():Configuration => {
-        return DataCollector._dataCollector._config;
-    };
+export class DataCollector extends BasicDataCollectorService {
 
     static visitedPage = (absoluteUrl:string, relativeUrl:string,
                           loggedInUserId:string, personIdentifierId:string,

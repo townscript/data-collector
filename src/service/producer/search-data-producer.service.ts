@@ -1,4 +1,4 @@
-import {SearchDataCollector} from "../collector/search-data-collector.service";
+import {SearchDataCollectorService} from "../collector/search-data-collector.service";
 import {Configuration} from "../../model/Configuration";
 import {UUID} from "../shared/UUID";
 import {BrowserStorage} from "../shared/BrowserStorage";
@@ -8,7 +8,7 @@ import { SearchSuggestionDataModel } from "../../model/search-stream-helper-mode
 
 declare var window: any;
 
-export class SearchDataProducer {
+export class SearchDataProducerService {
 
     private static PERSON_IDENTIFIER_ID: string = 'personIdentifierId';
     private static SESSION_ID: string = "session_id";
@@ -19,9 +19,9 @@ export class SearchDataProducer {
     }
 
     static initialize = (config: Configuration, disable: boolean) =>{
-        SearchDataCollector.configure(config);
+        SearchDataCollectorService.configure(config);
         if(disable){
-            SearchDataCollector.disable();
+            SearchDataCollectorService.disable();
         }
     };
 
@@ -30,8 +30,8 @@ export class SearchDataProducer {
         try{
             let relativeUrl = window.location.pathname;
             let absoluteUrl = window.location.href;
-            let personIdentifierId = BrowserStorage.updateFieldToLocalStorage(SearchDataProducer.PERSON_IDENTIFIER_ID);
-            let sessionId = BrowserStorage.updateCookieToLocalStorage(SearchDataProducer.SESSION_ID);
+            let personIdentifierId = BrowserStorage.updateFieldToLocalStorage(SearchDataProducerService.PERSON_IDENTIFIER_ID);
+            let sessionId = BrowserStorage.updateCookieToLocalStorage(SearchDataProducerService.SESSION_ID);
             let ipInfoData = BrowserStorage.getFieldFromLocalStorage("ipinfo_data");
             let city: string = "", country: string = "", postal: string = "",
                 region: string = "", ipaddress: string = "";
@@ -47,16 +47,16 @@ export class SearchDataProducer {
             let organizersList = new Array<OrganizerDataModel>();
             let suggestionsList = new Array<SearchSuggestionDataModel>();
             if(eventsListed != null){
-                eventsList = SearchDataProducer.getEventDataFormList(eventsListed);
+                eventsList = SearchDataProducerService.getEventDataFormList(eventsListed);
             }
             if(organizersListed != null){
-                organizersList = SearchDataProducer.getOrganizerDataFormList(organizersListed);
+                organizersList = SearchDataProducerService.getOrganizerDataFormList(organizersListed);
             }
             if(eventsListed != null){
-                suggestionsList = SearchDataProducer.getSuggestionsDataFormList(searchSuggestions);
+                suggestionsList = SearchDataProducerService.getSuggestionsDataFormList(searchSuggestions);
             }
 
-            SearchDataCollector.recordSearchData(absoluteUrl, relativeUrl,loggedInUserId, personIdentifierId,
+            SearchDataCollectorService.recordSearchData(absoluteUrl, relativeUrl,loggedInUserId, personIdentifierId,
                 sessionId, city, country, postal,region, ipaddress, typedText, searchIntent, eventCount, eventsList, organizersList, suggestionsList, pageNumber);
         }
         catch(e){
