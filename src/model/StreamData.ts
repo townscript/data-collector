@@ -1,9 +1,9 @@
 import { BasicStreamDataModel } from "./basic-stream-data.model";
 
-export interface StreamData extends BasicStreamDataModel {
+export interface PrimaryStreamDataModel extends BasicStreamDataModel {
     //Unique Id for record
-    eventType: string,
-    detailClientTimeStamp: string,
+    eventType?: string,
+    detailClientTimeStamp?: string,
     customText1 ?: string,
     //Visitors information
     eventLabel ?: string,

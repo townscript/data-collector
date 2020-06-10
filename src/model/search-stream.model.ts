@@ -4,11 +4,11 @@ import { SearchSuggestionDataModel } from "./search-stream-helper-model/search-s
 import { BasicStreamDataModel } from "./basic-stream-data.model";
 
 export interface SearchStreamDataModel extends BasicStreamDataModel {
-    typedText: string, //original text typed in
-    searchIntent: string, //search query performed on this text
-    eventCount: number,//count of events fetched on the searchIntent
-    eventsList:Array<EventDataModel>, // List of events on first page(includes objects containing fields - event_id, event_name and search_score)
-    organizersList:Array<OrganizerDataModel>, // List of organizers on first page(list of user_ids of organizers fetched)
-    searchSuggestions: Array<SearchSuggestionDataModel>, //search suggestions given to the user 
-    pageNumber: number 
+    typedText?: string, //original text typed in
+    searchIntent?: string, //search query performed on this text
+    eventCount?: number,//count of events fetched on the searchIntent
+    eventsList?:Array<EventDataModel>, // List of events on first page(includes objects containing fields - event_id, event_name and search_score)
+    organizersList?:Array<OrganizerDataModel>, // List of organizers on first page(list of user_ids of organizers fetched)
+    searchSuggestions?: Array<SearchSuggestionDataModel>, //search suggestions given to the user 
+    pageNumber?: number 
 }

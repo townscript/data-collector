@@ -1,29 +1,33 @@
-import {StreamData} from "../../model/StreamData";
 import * as Kinesis from "aws-sdk/clients/kinesis";
-import {DataCollector} from "../collector/DataCollector";
 import {Configuration} from "../../model/Configuration";
+import { SearchDataCollectorService } from "../collector/search-data-collector.service";
 
 export class RecordData {
-    private readonly _putRecord: Kinesis.PutRecordInput;
+    private _putRecord!: Kinesis.PutRecordInput;
     private _config: Configuration;
 
-    private constructor(data:StreamData,  config: Configuration){
+    private constructor(config: Configuration){
         //Here adding new line in the end of the record so that AWS Athena process
         //S3 records properly.
-        let kinesisData = JSON.stringify(data) + "\n";
-        this._putRecord = {
-            Data: kinesisData,
-            PartitionKey: config.uniqueIdentifier,
-            StreamName: DataCollector.getConfig().streamName
-        };
         this._config = config;
     }
 
-    static create = (data:StreamData, config: Configuration):RecordData => {
-        return new RecordData(data, config);
+    analyze = (key: any, value: any) => {
+        return value;
     };
 
-    send = () => {
+    static create = (config: Configuration, streamName: string):RecordData => {
+        config.streamName = streamName;
+        return new RecordData(config);
+    };
+
+    publishDataToKinesis(data: any) {
+        let kinesisData = JSON.stringify(data, this.analyze) + "\n";
+        this._putRecord = {
+            Data: kinesisData,
+            PartitionKey: this._config.uniqueIdentifier,
+            StreamName: this._config.streamName
+        };
         new Kinesis({
             accessKeyId: this._config.accessKeyId,
             secretAccessKey: this._config.secretAccessKey,
@@ -33,6 +37,6 @@ export class RecordData {
                console.log(err.message);
            console.info(data.ShardId);
         });
-    };
+    }
 
 }

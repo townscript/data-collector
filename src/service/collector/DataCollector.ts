@@ -1,9 +1,8 @@
-import {StreamData} from "../../model/StreamData";
+import {PrimaryStreamDataModel} from "../../model/StreamData";
 import {EventType} from "../../model/EventType";
 import {RecordData} from "../publisher/RecordData";
-import {UUID} from "../shared/UUID";
-import { UserMetaDataService } from "../shared/user-metadata.service";
 import { BasicDataCollectorService } from "./basic-data-collector.service";
+import { BasicStreamDataModel } from "../../model/basic-stream-data.model";
 
 export class DataCollector extends BasicDataCollectorService {
 
@@ -39,60 +38,27 @@ export class DataCollector extends BasicDataCollectorService {
         let streamData = DataCollector.getStreamData(eventType,absoluteUrl, relativeUrl,
             loggedInUserId, personIdentifierId, sessionId, city,
             country, postalCode, region, ipaddress, eventLabel, clickedLocation, customText1);
-        RecordData.create(streamData, DataCollector._dataCollector._config).send();
+        RecordData.create(DataCollector._dataCollector._config, DataCollector.getConfig().streamName).publishDataToKinesis(streamData);
     }
 
     static getStreamData = (eventType: string, absoluteUrl:string, relativeUrl:string,
                             loggedInUserId:string, personIdentifierId:string,
                             sessionId:string, city:string, country:string, postalCode:string,
                             region:string, ipaddress:string, eventLabel: string,
-                            clickedLocation: string, customText1:string):StreamData =>{
-        let currentDate: Date = new Date();
-        let detailClientTimeStamp:string = currentDate.toString();
-        let longClientTimeStamp: number = currentDate.getTime();
-        let userAgentBrowser: string = UserMetaDataService.getWebBrowserInfo();
-        let recordId: string = UUID.generateUUID32();
-        let userDevice: string = UserMetaDataService.isDevicePhone() ? "Phone" : "Desktop";
-        let streamData:StreamData = {
-            eventType: eventType,
-            userAgentBrowser: userAgentBrowser,
-            absoluteUrl: absoluteUrl,
-            relativeUrl: relativeUrl,
-            longClientTimeStamp: longClientTimeStamp,
-            detailClientTimeStamp: detailClientTimeStamp,
-            personIdentifierId: personIdentifierId,
-            recordId: recordId,
-            sessionId: sessionId,
-            clientTimeStamp:currentDate,
-            userDevice: userDevice
-        };
-        if(loggedInUserId){
-            streamData.loggedInUserId = loggedInUserId;
-        }
-        if(city){
-            streamData.city = city;
-        }
-        if(country){
-            streamData.country = country;
-        }
-        if(postalCode){
-            streamData.postalCode = postalCode;
-        }
-        if(region){
-            streamData.region = region;
-        }
-        if(customText1){
-            streamData.customText1 = customText1;
-        }
-        if(ipaddress){
-            streamData.ipAddress = ipaddress;
-        }
-        if(eventLabel){
-            streamData.eventLabel = eventLabel;
-        }
-        if(clickedLocation){
-            streamData.clickedLocation = clickedLocation;
-        }
-        return streamData;
+                            clickedLocation: string, customText1:string):PrimaryStreamDataModel =>{
+                                let currentDate: Date = new Date();
+                                let detailClientTimeStamp:string = currentDate.toString();
+                                let basicStreamData: BasicStreamDataModel = BasicDataCollectorService.setBasicStreamData(absoluteUrl,relativeUrl,loggedInUserId,personIdentifierId,sessionId,city,country,postalCode,region,ipaddress);
+                                let streamData:PrimaryStreamDataModel = basicStreamData;
+                                streamData.eventType = eventType;
+                                streamData.eventLabel = eventLabel;
+                                streamData.detailClientTimeStamp = detailClientTimeStamp;
+                                if(customText1){
+                                    streamData.customText1 = customText1;
+                                }
+                                if(clickedLocation){
+                                    streamData.clickedLocation = clickedLocation;
+                                }
+                                return streamData;
     };
 }
