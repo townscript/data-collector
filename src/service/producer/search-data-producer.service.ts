@@ -6,13 +6,7 @@ import { SearchSuggestionDataModel } from "../../model/search-stream-helper-mode
 import { BasicStreamMetadataModel } from "../../model/basic-stream-metadata.model";
 import { BasicDataProducerService } from "./basic-data-producer.service";
 
-export class SearchDataProducerService {
-
-    private _config: Configuration;
-
-    private constructor(config: Configuration) {
-        this._config = config;
-    }
+export class SearchDataProducerService extends BasicDataProducerService {
 
     static initialize = (config: Configuration, disable: boolean) =>{
         SearchDataCollectorService.configure(config);

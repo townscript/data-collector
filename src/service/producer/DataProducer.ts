@@ -4,13 +4,7 @@ import {EventType} from "../../model/EventType";
 import {BasicStreamMetadataModel} from '../../model/basic-stream-metadata.model';
 import { BasicDataProducerService } from "./basic-data-producer.service";
 
-export class DataProducer {
-
-    private _config: Configuration;
-
-    private constructor(config: Configuration) {
-        this._config = config;
-    }
+export class DataProducer extends BasicDataProducerService {
 
     static initialize = (config: Configuration, disable: boolean) =>{
         DataCollector.configure(config);
