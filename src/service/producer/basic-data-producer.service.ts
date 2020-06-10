@@ -1,12 +1,17 @@
 import { BrowserStorage } from "../shared/BrowserStorage";
 import { BasicStreamMetadataModel } from "../../model/basic-stream-metadata.model";
-import { BasicStreamDataModel } from "../../model/basic-stream-data.model";
+import { Configuration } from "../../model/Configuration";
 
 declare var window: any;
 
 export class BasicDataProducerService {
     private static PERSON_IDENTIFIER_ID: string = 'personIdentifierId';
     private static SESSION_ID: string = "session_id";
+    private _config: Configuration;
+
+    constructor(config: Configuration) {
+        this._config = config;
+    }
 
     static generatePrimaryDataForCollector = (): BasicStreamMetadataModel=>{
         let relativeUrl = window.location.pathname;
