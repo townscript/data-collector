@@ -1,3 +1,5 @@
+import { UUID } from "./UUID";
+
 declare var localStorage: any;
 declare var document: any;
 
@@ -37,4 +39,22 @@ export class BrowserStorage {
         }
         document.cookie = name + "=" + value + expires;
     };
+
+    static updateFieldToLocalStorage(identifierId: string) {
+        var userIdentifierVal = this.getFieldFromLocalStorage(identifierId);
+        if(!userIdentifierVal){
+            userIdentifierVal = UUID.generateUUID32();
+            this.setFieldToLocalStorage(identifierId, userIdentifierVal);
+        } 
+        return userIdentifierVal;  
+    }
+
+    static updateCookieToLocalStorage(id: string) {
+        var val = this.getCookie(id);
+        if(!val){
+            val = UUID.generateUUID16();
+            BrowserStorage.setCookie(id, val, 0);
+        }
+        return val;
+    }
 }
